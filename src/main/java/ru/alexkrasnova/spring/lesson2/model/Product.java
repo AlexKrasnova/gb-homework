@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Product {
 
-    private String id;
+    private Long id;
     private String name;
     private BigDecimal price;
 
@@ -18,4 +18,7 @@ public class Product {
         return name + ", " + price + " руб";
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 }
