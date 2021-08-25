@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class ConsoleApplication {
 
     private Cart cart;
-    private final Scanner scanner;
+    private Scanner scanner;
 
     private final String ADD = "ADD";
     private final String REMOVE = "REMOVE";
@@ -21,25 +21,34 @@ public class ConsoleApplication {
     @Autowired
     public ConsoleApplication(Cart cart) {
         this.cart = cart;
-        scanner = new Scanner(System.in);
     }
 
     public void run() {
-        System.out.println("Список команд:\n" + ADD + " - добавить товар,\n" + REMOVE + " - удалить товар,\n" + SHOW_CART + " - показать корзину,\n" + EXIT + " - выйти.");
-        while (true) {
-            System.out.println("Введите команду:");
-            final String str = scanner.nextLine();
-            if (ADD.equals(str)) {
-                addProductToCart();
-            } else if (REMOVE.equals(str)) {
-                removeProductFormCart();
-            } else if (EXIT.equals(str)) {
-                return;
-            } else if (SHOW_CART.equals(str)) {
-                displayCart();
-            } else {
-                System.out.println("Неверная команда, попробуйте еще раз.");
+        scanner = new Scanner(System.in);
+        try {
+            System.out.println("Список команд:\n" + ADD + " - добавить товар,\n" + REMOVE + " - удалить товар,\n" + SHOW_CART + " - показать корзину,\n" + EXIT + " - выйти.");
+            while (true) {
+                System.out.println("Введите команду:");
+                //final String str= scanner.nextLine();
+                switch (scanner.nextLine()) {
+                    case(ADD):
+                        addProductToCart();
+                        break;
+                    case(REMOVE):
+                        removeProductFormCart();
+                        break;
+                    case(SHOW_CART):
+                        displayCart();
+                        break;
+                    case(EXIT):
+                        return;
+                    default:
+                        System.out.println("Неверная команда, попробуйте еще раз.");
+                    break;
+                }
             }
+        } finally {
+            scanner.close();
         }
     }
 

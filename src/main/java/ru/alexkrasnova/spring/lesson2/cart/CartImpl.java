@@ -10,6 +10,7 @@ import ru.alexkrasnova.spring.lesson2.repository.ProductRepository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -21,7 +22,7 @@ public class CartImpl implements Cart {
     @Autowired
     public CartImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        products = new HashMap<>();
+        products = new ConcurrentHashMap<>();
     }
 
     @Override
