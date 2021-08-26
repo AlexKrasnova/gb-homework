@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.alexkrasnova.spring.lesson2.model.Product;
 import ru.alexkrasnova.spring.lesson2.service.ProductService;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public String save(@ModelAttribute Product product) {
+    public String save(@Valid @ModelAttribute Product product) {
         productService.save(product);
         return "redirect:/products";
     }

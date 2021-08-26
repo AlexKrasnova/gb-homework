@@ -16,6 +16,10 @@
         <input type="text" class="form-control" id="name" name="name"/>
     </div>
     <div class="mb-3">
+        <label class="form-label">Бренд</label>
+        <input type="text" class="form-control" id="company" name="company"/>
+    </div>
+    <div class="mb-3">
         <label class="form-label">Цена</label>
         <input type="text" class="form-control" id="price" name="price"/>
     </div>
@@ -30,11 +34,13 @@
         <tr>
             <th>ID</th>
             <th>Название</th>
+            <th>Производитель</th>
             <th>Цена</th>
         </tr>
         <tr th:each="product : ${products}">
             <td th:text="${product.id}">...</td>
             <td th:text="${product.name}">...</td>
+            <td th:text="${product.company}">...</td>
             <td th:text="${product.price}">...</td>
         </tr>
     </table>

@@ -47,10 +47,10 @@ public class SimpleProductRepository implements ProductRepository {
     @PostConstruct
     public void init() {
         products = new ConcurrentHashMap<>();
-        products.put(1L, new Product(1L, "Молоко", new BigDecimal("89.50")));
-        products.put(2L,new Product(2L, "Кефир", new BigDecimal("79")));
-        products.put(3L,new Product(3L, "Ряженка", new BigDecimal("78.90")));
-        products.put(4L,new Product(4L, "Мацони", new BigDecimal("100")));
-        products.put(5L,new Product(5L, "Сметана", new BigDecimal("49.50")));
+        products.put(1L, new Product(1L, "Молоко", "Домик в деревне", new BigDecimal("89.50")));
+        products.put(2L, new Product(2L, "Кефир", "Простоквашино", new BigDecimal("79")));
+        products.put(3L, new Product(3L, "Ряженка", "Valio", new BigDecimal("78.90")));
+        products.put(4L, new Product(4L, "Мацони", "Домик в деревне", new BigDecimal("100")));
+        products.put(5L, new Product(5L, "Сметана", "Простоквашино", new BigDecimal("49.50")));
     }
 }
