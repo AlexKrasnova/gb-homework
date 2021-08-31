@@ -1,4 +1,4 @@
-package ru.alexkrasnova.spring.lesson2.validation;
+package ru.alexkrasnova.spring.lesson2.dto.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

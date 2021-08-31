@@ -1,46 +1,44 @@
 package ru.alexkrasnova.spring.lesson2.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import ru.alexkrasnova.spring.lesson2.deserialization.ProductDeserializer;
-import ru.alexkrasnova.spring.lesson2.validation.Company;
+import lombok.Setter;
+import ru.alexkrasnova.spring.lesson2.dto.validation.Company;
 
-import javax.validation.constraints.Min;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonDeserialize(using = ProductDeserializer.class)
+@Entity
+@Table(name = "product")
+@NamedQueries({
+        @NamedQuery(name = "allSelect", query = "select p from Product p "),
+        @NamedQuery(name = "byIdSelect", query = "select p from Product p where p.id = :id")
+})
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @NotNull
+    @Column(name = "name")
     private String name;
 
-    @Company
+    @Column(name = "company")
     private String company;
 
+    @Column(name = "price")
     private BigDecimal price;
-
-    public Product(String name, String company, BigDecimal price) {
-        this.name = name;
-        this.company = company;
-        this.price = price;
-    }
 
     @Override
     public String toString() {
         return name + ", " + company + " - " + price + " руб";
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 }

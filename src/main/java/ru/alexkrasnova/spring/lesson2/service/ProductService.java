@@ -2,6 +2,7 @@ package ru.alexkrasnova.spring.lesson2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.alexkrasnova.spring.lesson2.dto.ProductDTO;
 import ru.alexkrasnova.spring.lesson2.model.Product;
 import ru.alexkrasnova.spring.lesson2.repository.ProductRepository;
 
@@ -23,5 +24,13 @@ public class ProductService {
 
     public void save(Product product) {
         productRepository.save(product);
+    }
+
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
+    }
+
+    public void updateById(Long id, Product product) {
+        productRepository.updateById(id, product);
     }
 }
