@@ -36,6 +36,16 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Version
+    private Integer version;
+
+    public Product(Long id, String name, String company, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.company = company;
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return name + ", " + company + " - " + price + " руб";

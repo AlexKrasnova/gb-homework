@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import ru.alexkrasnova.spring.lesson2.model.Product;
 
+import javax.persistence.LockModeType;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,6 +30,7 @@ public class DatabaseProductRepository implements ProductRepository {
 
             Query<Product> query = session.createNamedQuery("allSelect",
                     Product.class);
+            query.setLockMode(LockModeType.OPTIMISTIC);
             List<Product> products = query.getResultList();
 
             session.getTransaction().commit();
@@ -47,6 +49,7 @@ public class DatabaseProductRepository implements ProductRepository {
             Query<Product> query = session.createNamedQuery("byIdSelect",
                     Product.class);
             query.setParameter("id", id);
+            query.setLockMode(LockModeType.OPTIMISTIC);
             Product product = query.getSingleResult();
 
             session.getTransaction().commit();
@@ -78,6 +81,7 @@ public class DatabaseProductRepository implements ProductRepository {
 
                 Product product = session.createNamedQuery("byIdSelect", Product.class)
                         .setParameter("id", id)
+                        .setLockMode(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
                         .getSingleResult();
                 session.delete(product);
 
@@ -95,6 +99,7 @@ public class DatabaseProductRepository implements ProductRepository {
             Query<Product> query = session.createNamedQuery("byIdSelect",
                     Product.class);
             query.setParameter("id", id);
+            query.setLockMode(LockModeType.OPTIMISTIC_FORCE_INCREMENT);
             Product updatedProduct = query.getSingleResult();
             updatedProduct.setName(product.getName());
             updatedProduct.setCompany(product.getCompany());
