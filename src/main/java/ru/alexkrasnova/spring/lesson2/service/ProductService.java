@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alexkrasnova.spring.lesson2.dto.ProductDTO;
 import ru.alexkrasnova.spring.lesson2.model.Product;
+import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter;
 import ru.alexkrasnova.spring.lesson2.repository.ProductRepository;
 
 import java.util.List;
@@ -32,5 +33,9 @@ public class ProductService {
 
     public void updateById(Long id, Product product) {
         productRepository.updateById(id, product);
+    }
+
+    public List<Product> findByFilters(ProductFilter[] productFilters) {
+        return productRepository.findByFilters(productFilters);
     }
 }

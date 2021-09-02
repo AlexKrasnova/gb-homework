@@ -1,7 +1,7 @@
 package ru.alexkrasnova.spring.lesson2.repository;
 
-import ru.alexkrasnova.spring.lesson2.dto.ProductDTO;
 import ru.alexkrasnova.spring.lesson2.model.Product;
+import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter;
 
 import java.util.List;
 
@@ -16,4 +16,6 @@ public interface ProductRepository {
     void deleteById(Long id);
 
     void updateById(Long id, Product product);
+
+    List<Product> findByFilters(ProductFilter[] productFilters);
 }

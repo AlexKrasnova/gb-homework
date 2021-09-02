@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.alexkrasnova.spring.lesson2.dto.ProductDTO;
 import ru.alexkrasnova.spring.lesson2.mapper.ProductMapper;
 import ru.alexkrasnova.spring.lesson2.model.Product;
+import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter;
 import ru.alexkrasnova.spring.lesson2.service.ProductService;
 
 import java.util.List;
@@ -21,6 +22,12 @@ public class ProductController {
     @GetMapping
     public List<ProductDTO> findAll() {
         List<Product> products = productService.findAll();
+        return products.stream().map(productMapper::convertProductToProductDTO).collect(Collectors.toList());
+    }
+
+    @PostMapping("/get")
+    public List<ProductDTO> findByFilters(@RequestBody ProductFilter[] productFilters) {
+        List<Product> products = productService.findByFilters(productFilters);
         return products.stream().map(productMapper::convertProductToProductDTO).collect(Collectors.toList());
     }
 
