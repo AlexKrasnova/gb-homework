@@ -9,6 +9,7 @@ import ru.alexkrasnova.spring.lesson2.dto.validation.Company;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
