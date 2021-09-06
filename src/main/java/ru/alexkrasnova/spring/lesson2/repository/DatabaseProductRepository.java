@@ -1,8 +1,6 @@
 package ru.alexkrasnova.spring.lesson2.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -10,16 +8,13 @@ import ru.alexkrasnova.spring.lesson2.model.Product;
 import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter;
 
 import javax.persistence.LockModeType;
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter.OperationType;
 import static ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter.OperationType.*;
 
 @Repository
@@ -27,83 +22,57 @@ import static ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter.Operati
 @RequiredArgsConstructor
 public class DatabaseProductRepository implements ProductRepository {
 
-    private final SessionFactory sessionFactory;
+    private final TransactionExecutor transactionExecutor;
 
     @Override
     public List<Product> findAll() {
-        try (Session session = sessionFactory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            Query<Product> query = session.createNamedQuery("allSelect",
+        return transactionExecutor.execute(session -> {
+            Query<Product> query = session.createNamedQuery("allProductsSelect",
                     Product.class);
             query.setLockMode(LockModeType.OPTIMISTIC);
             List<Product> products = query.getResultList();
 
-            session.getTransaction().commit();
-
             return products;
-        }
-
+        });
     }
 
     @Override
     public Product findById(Long id) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-
-            session.beginTransaction();
-
-            Query<Product> query = session.createNamedQuery("byIdSelect",
+        return transactionExecutor.execute(session -> {
+            Query<Product> query = session.createNamedQuery("byIdProductSelect",
                     Product.class);
             query.setParameter("id", id);
             query.setLockMode(LockModeType.OPTIMISTIC);
             Product product = query.getSingleResult();
 
-            session.getTransaction().commit();
-
             return product;
-        }
+        });
     }
 
     @Override
     public void save(Product product) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            try {
-                session.beginTransaction();
-
-                session.save(product);
-
-                session.getTransaction().commit();
-            } catch (Exception exception) {
-                session.getTransaction().rollback();
-            }
-        }
+        transactionExecutor.execute(session -> {
+            session.save(product);
+            return null;
+        });
     }
 
     @Override
     public void deleteById(Long id) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            try {
-                session.beginTransaction();
-
-                Product product = session.createNamedQuery("byIdSelect", Product.class)
-                        .setParameter("id", id)
-                        .setLockMode(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
-                        .getSingleResult();
-                session.delete(product);
-
-                session.getTransaction().commit();
-            } catch (Exception exception) {
-                session.getTransaction().rollback();
-            }
-        }
+        transactionExecutor.execute(session -> {
+            Product product = session.createNamedQuery("byIdProductSelect", Product.class)
+                    .setParameter("id", id)
+                    .setLockMode(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
+                    .getSingleResult();
+            session.delete(product);
+            return null;
+        });
     }
 
     @Override
     public void updateById(Long id, Product product) {
-        try (Session session = sessionFactory.getCurrentSession()) {
-            session.beginTransaction();
-            Query<Product> query = session.createNamedQuery("byIdSelect",
+        transactionExecutor.execute(session -> {
+            Query<Product> query = session.createNamedQuery("byIdProductSelect",
                     Product.class);
             query.setParameter("id", id);
             query.setLockMode(LockModeType.OPTIMISTIC_FORCE_INCREMENT);
@@ -111,50 +80,64 @@ public class DatabaseProductRepository implements ProductRepository {
             updatedProduct.setName(product.getName());
             updatedProduct.setCompany(product.getCompany());
             updatedProduct.setPrice(product.getPrice());
-            session.getTransaction().commit();
-        }
+            return null;
+        });
     }
 
     @Override
-    public List<Product> findByFilters(ProductFilter[] productFilters) {
-        try (Session session = sessionFactory.getCurrentSession()) {
+    public List<Product> findByFilters(List<ProductFilter> productFilters) {
+        return transactionExecutor.execute(session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<Product> cr = cb.createQuery(Product.class);
             Root<Product> root = cr.from(Product.class);
 
             List<Predicate> predicates = new ArrayList<>();
-            for (int i = 0; i < productFilters.length; i++) {
-                ProductFilter.OperationType operationType = productFilters[i].getOperationType();
-
-                if(operationType.equals(EQUALS)) {
-                    predicates.add(cb.equal(root.get(productFilters[i].getFieldName()), productFilters[i].getValue()));
+            for (int i = 0; i < productFilters.size(); i++) {
+                ProductFilter.OperationType operationType = productFilters.get(i).getOperationType();
+                String fieldName = "";
+                if (productFilters.get(i).getFieldName().equals("name")) {
+                    fieldName = "name";
+                } else if (productFilters.get(i).getFieldName().equals("company")) {
+                    fieldName = "company";
+                } else if (productFilters.get(i).getFieldName().equals("price")) {
+                    fieldName = "price";
                 }
-                if(operationType.equals(GREATER_THEN)) {
-                    predicates.add(cb.gt(root.get(productFilters[i].getFieldName()), (Number) productFilters[i].getValue()));
+                if (!fieldName.equals("")) {
+                    if (operationType.equals(EQUALS)) {
+                        predicates.add(cb.equal(root.get(fieldName), productFilters.get(i).getValue()));
+                    }
+                    if (operationType.equals(GREATER_THEN)) {
+                        predicates.add(cb.gt(root.get(productFilters.get(i).getFieldName()), (Number) productFilters.get(i).getValue()));
+                    }
+                    if (operationType.equals(LESS_THEN)) {
+                        predicates.add(cb.lt(root.get(productFilters.get(i).getFieldName()), (Number) productFilters.get(i).getValue()));
+                    }
+                    if (operationType.equals(LIKE)) {
+                        predicates.add(cb.like(root.get(productFilters.get(i).getFieldName()), (String) productFilters.get(i).getValue()));
+                    }
+                    if (operationType.equals(NOT_EQUALS)) {
+                        predicates.add(cb.notEqual(root.get(productFilters.get(i).getFieldName()), productFilters.get(i).getValue()));
+                    }
                 }
-                if(operationType.equals(LESS_THEN)) {
-                    predicates.add(cb.lt(root.get(productFilters[i].getFieldName()), (Number) productFilters[i].getValue()));
-                }
-                if(operationType.equals(LIKE)) {
-                    predicates.add(cb.like(root.get(productFilters[i].getFieldName()),(String) productFilters[i].getValue()));
-                }
-                if(operationType.equals(NOT_EQUALS)) {
-                    predicates.add(cb.notEqual(root.get(productFilters[i].getFieldName()), productFilters[i].getValue()));
-                }
-              //Почему-то не работает switch, ругается что Constant expression required
-/*                switch (operationType) {
-                    case (GREATER_THEN):
-                        predicates.add(cb.gt(root.get(productFilters[i].getFieldName()), (Number) productFilters[i].getValue()));
-                        break;
-                    // ...
-                    default:
-                        break;
-                }*/
             }
             cr.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
 
             Query<Product> query = session.createQuery(cr);
             return query.getResultList();
-        }
+        });
     }
+
+    /*private <T> T execute(Function<Session, T> work) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            try {
+                session.beginTransaction();
+                T result = work.apply(session);
+                session.getTransaction().commit();
+                return result;
+            } catch (Exception exception) {
+                session.getTransaction().rollback();
+                throw exception;
+            }
+        }
+    }*/
 }

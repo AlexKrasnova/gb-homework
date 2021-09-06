@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import ru.alexkrasnova.spring.lesson2.dto.deserialization.ProductDeserializer;
 import ru.alexkrasnova.spring.lesson2.dto.validation.Company;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ProductDTO {
     @Company
     private String company;
 
+    @Min(10)
     private BigDecimal price;
 
     public ProductDTO(String name, String company, BigDecimal price) {

@@ -29,27 +29,22 @@ public class Purchase {
     @Column(name = "date")
     private Date date;
 
+    @Column(name = "customer_id")
+    private Long customerId;
+
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private Customer customer;
 
     @OneToMany(mappedBy = "purchase", fetch = FetchType.EAGER)
     private List<PurchaseDetailing> purchaseDetailings;
 
-/*    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "purchase_detailing",
-            joinColumns = @JoinColumn(name = "purchase_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;*/
-
     @Version
     private Integer version;
 
-    public Purchase(Date date, Customer customer, List<PurchaseDetailing> purchaseDetailings) {
+    public Purchase(Date date, Long customerId, List<PurchaseDetailing> purchaseDetailings) {
         this.date = date;
-        this.customer = customer;
+        this.customerId = customerId;
         this.purchaseDetailings = purchaseDetailings;
     }
 

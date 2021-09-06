@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class PurchaseDetailingDTO {
 
-    ProductDTO productDTO;
+    ProductDTO product;
     BigDecimal price;
     Integer number;
 

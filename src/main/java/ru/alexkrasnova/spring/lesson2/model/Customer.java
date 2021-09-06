@@ -14,6 +14,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "allCustomersSelect", query = "select c from Customer c"),
+        @NamedQuery(name = "byIdCustomerSelect", query = "select c from Customer c where c.id = :id")
+})
 public class Customer {
 
     @Id

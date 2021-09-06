@@ -17,5 +17,5 @@ public interface ProductRepository {
 
     void updateById(Long id, Product product);
 
-    List<Product> findByFilters(ProductFilter[] productFilters);
+    List<Product> findByFilters(List<ProductFilter> productFilters);
 }

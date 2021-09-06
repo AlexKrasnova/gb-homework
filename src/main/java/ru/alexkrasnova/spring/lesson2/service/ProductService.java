@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.alexkrasnova.spring.lesson2.dto.ProductDTO;
 import ru.alexkrasnova.spring.lesson2.model.Product;
 import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter;
+import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilters;
 import ru.alexkrasnova.spring.lesson2.repository.ProductRepository;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ProductService {
         productRepository.updateById(id, product);
     }
 
-    public List<Product> findByFilters(ProductFilter[] productFilters) {
-        return productRepository.findByFilters(productFilters);
+    public List<Product> findByFilters(ProductFilters productFilters) {
+        return productRepository.findByFilters(productFilters.getProductFilters());
     }
 }

@@ -13,7 +13,7 @@ public class CustomerDTO {
     private Long id;
     private String name;
 
-    public CustomerDTO(String name) {
+    /*public CustomerDTO(String name) {
         this.name = name;
-    }
+    }*/
 }

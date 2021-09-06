@@ -16,8 +16,8 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 @NamedQueries({
-        @NamedQuery(name = "allSelect", query = "select p from Product p "),
-        @NamedQuery(name = "byIdSelect", query = "select p from Product p where p.id = :id")
+        @NamedQuery(name = "allProductsSelect", query = "select p from Product p "),
+        @NamedQuery(name = "byIdProductSelect", query = "select p from Product p where p.id = :id")
 })
 public class Product {
 

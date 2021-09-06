@@ -6,8 +6,10 @@ import ru.alexkrasnova.spring.lesson2.dto.ProductDTO;
 import ru.alexkrasnova.spring.lesson2.mapper.ProductMapper;
 import ru.alexkrasnova.spring.lesson2.model.Product;
 import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter;
+import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilters;
 import ru.alexkrasnova.spring.lesson2.service.ProductService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,13 +28,13 @@ public class ProductController {
     }
 
     @PostMapping("/get")
-    public List<ProductDTO> findByFilters(@RequestBody ProductFilter[] productFilters) {
+    public List<ProductDTO> findByFilters(@RequestBody @Valid ProductFilters productFilters) {
         List<Product> products = productService.findByFilters(productFilters);
         return products.stream().map(productMapper::convertProductToProductDTO).collect(Collectors.toList());
     }
 
     @PostMapping
-    public void save(@RequestBody ProductDTO productDTO) {
+    public void save(@Valid @RequestBody ProductDTO productDTO) {
         productService.save(productMapper.convertProductDTOToProduct(productDTO));
     }
 

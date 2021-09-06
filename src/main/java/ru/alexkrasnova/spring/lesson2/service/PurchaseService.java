@@ -23,4 +23,7 @@ public class PurchaseService {
         return purchaseRepository.findById(id);
     }
 
+    public Long save(Purchase purchase) {
+        return purchaseRepository.save(purchase);
+    }
 }
