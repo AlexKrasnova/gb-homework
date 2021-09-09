@@ -3,8 +3,6 @@ package ru.alexkrasnova.spring.lesson2.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.alexkrasnova.spring.lesson2.model.Purchase;
-import ru.alexkrasnova.spring.lesson2.repository.DatabaseProductRepository;
-import ru.alexkrasnova.spring.lesson2.repository.DatabasePurchaseRepository;
 import ru.alexkrasnova.spring.lesson2.repository.PurchaseRepository;
 
 import java.util.List;
@@ -20,10 +18,10 @@ public class PurchaseService {
     }
 
     public Purchase findById(Long id) {
-        return purchaseRepository.findById(id);
+        return purchaseRepository.findById(id).orElseThrow();
     }
 
     public Long save(Purchase purchase) {
-        return purchaseRepository.save(purchase);
+        return purchaseRepository.save(purchase).getId();
     }
 }

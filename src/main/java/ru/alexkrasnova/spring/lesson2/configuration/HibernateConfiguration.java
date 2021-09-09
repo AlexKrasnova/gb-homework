@@ -1,5 +1,6 @@
 package ru.alexkrasnova.spring.lesson2.configuration;
 
+
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +11,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-@Configuration
-@EnableTransactionManagement
+/*@Configuration
+@EnableTransactionManagement*/
 public class HibernateConfiguration {
-
+/*
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
 
@@ -43,5 +44,6 @@ public class HibernateConfiguration {
         transactionManager.setSessionFactory(sessionFactory().getObject());
 
         return transactionManager;
-    }
+    }*/
 }
+

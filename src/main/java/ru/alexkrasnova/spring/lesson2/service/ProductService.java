@@ -7,6 +7,7 @@ import ru.alexkrasnova.spring.lesson2.model.Product;
 import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter;
 import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilters;
 import ru.alexkrasnova.spring.lesson2.repository.ProductRepository;
+import ru.alexkrasnova.spring.lesson2.repository.specification.ProductSpecification;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
-        return productRepository.findById(id);
+        return productRepository.findById(id).orElseThrow();
     }
 
     public void save(Product product) {
@@ -33,10 +34,14 @@ public class ProductService {
     }
 
     public void updateById(Long id, Product product) {
-        productRepository.updateById(id, product);
+        Product oldProduct = findById(id);
+        oldProduct.setPrice(product.getPrice());
+        oldProduct.setName(product.getName());
+        oldProduct.setCompany(product.getCompany());
+        productRepository.save(oldProduct);
     }
 
-    public List<Product> findByFilters(ProductFilters productFilters) {
-        return productRepository.findByFilters(productFilters.getProductFilters());
+    public List<Product> findByFilters(List<ProductFilter> productFilters) {
+        return productRepository.findAll(ProductSpecification.getSpecification(productFilters));
     }
 }

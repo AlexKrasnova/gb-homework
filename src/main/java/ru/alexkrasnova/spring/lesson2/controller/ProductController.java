@@ -27,11 +27,7 @@ public class ProductController {
         return products.stream().map(productMapper::convertProductToProductDTO).collect(Collectors.toList());
     }
 
-    @PostMapping("/get")
-    public List<ProductDTO> findByFilters(@RequestBody @Valid ProductFilters productFilters) {
-        List<Product> products = productService.findByFilters(productFilters);
-        return products.stream().map(productMapper::convertProductToProductDTO).collect(Collectors.toList());
-    }
+
 
     @PostMapping
     public void save(@Valid @RequestBody ProductDTO productDTO) {
@@ -51,5 +47,11 @@ public class ProductController {
     @PutMapping("/{id}")
     public void updateById(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         productService.updateById(id, productMapper.convertProductDTOToProduct(productDTO));
+    }
+
+    @PostMapping("/get")
+    public List<ProductDTO> findByFilters(@RequestBody @Valid ProductFilters productFilters) {
+        List<Product> products = productService.findByFilters(productFilters.getProductFilters());
+        return products.stream().map(productMapper::convertProductToProductDTO).collect(Collectors.toList());
     }
 }
