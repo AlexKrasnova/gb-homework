@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonDeserialize(using = ProductDeserializer.class)
+//@JsonDeserialize(using = ProductDeserializer.class)
 public class ProductDTO {
 
     private Long id;

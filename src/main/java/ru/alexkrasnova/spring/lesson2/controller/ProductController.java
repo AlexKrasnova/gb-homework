@@ -27,8 +27,6 @@ public class ProductController {
         return products.stream().map(productMapper::convertProductToProductDTO).collect(Collectors.toList());
     }
 
-
-
     @PostMapping
     public void save(@Valid @RequestBody ProductDTO productDTO) {
         productService.save(productMapper.convertProductDTOToProduct(productDTO));

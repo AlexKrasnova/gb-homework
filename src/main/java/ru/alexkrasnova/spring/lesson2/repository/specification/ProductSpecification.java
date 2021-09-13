@@ -27,13 +27,19 @@ public class ProductSpecification {
                             } else if ("company".equals(fieldName)) {
                                 return companyEq((String) it.getValue());
                             } else if ("price".equals(fieldName)) {
-                                return priceEq((BigDecimal) it.getValue());
+                                return priceEq(new BigDecimal(it.getValue().toString()));
                             }
                             break;
                         }
                         case GREATER_THEN: {
                             if ("price".equals(fieldName)) {
-                                return priceGt((BigDecimal) it.getValue());
+                                return priceGt(new BigDecimal(it.getValue().toString()));
+                            }
+                            break;
+                        }
+                        case LESS_THEN: {
+                            if ("price".equals(fieldName)) {
+                                return priceLt(new BigDecimal(it.getValue().toString()));
                             }
                             break;
                         }
@@ -63,6 +69,10 @@ public class ProductSpecification {
 
     private static Specification<Product> priceGt(BigDecimal price) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("price"), price);
+    }
+
+    private static Specification<Product> priceLt(BigDecimal price) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("price"), price);
     }
 
 
