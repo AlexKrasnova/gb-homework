@@ -67,6 +67,7 @@ app.controller("indexController", ['$scope','$modal', '$http', '$log',
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
+        
     }]);
 
 var ModalInstanceCtrl = function ($scope, $modalInstance, $http, updateProductForm) {
@@ -75,7 +76,7 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, $http, updateProductFo
     $scope.submitForm = function () {
         console.log('sdflk');
         console.log('В submitForm id = ' + $scope.id);
-        console.log($scope.form.updateProductForm.UpdatedProduct.name);
+        console.log($scope.UpdatedProduct.name);
 
         $modalInstance.close('closed');
         const contextPath = 'http://localhost:8080';
@@ -97,4 +98,6 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, $http, updateProductFo
         $modalInstance.dismiss('cancel');
     };
 };
+
+
 
