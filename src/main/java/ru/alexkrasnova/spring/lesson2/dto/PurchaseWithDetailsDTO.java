@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import ru.alexkrasnova.spring.lesson2.model.Customer;
-import ru.alexkrasnova.spring.lesson2.model.Product;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("Детализированный заказ")
-public class PurchaseWithCustomerDetailsDTO {
+public class PurchaseWithDetailsDTO {
 
     @ApiModelProperty("ID")
     private Long id;
@@ -28,11 +25,11 @@ public class PurchaseWithCustomerDetailsDTO {
     private CustomerDTO customer;
 
     @ApiModelProperty("Детали заказа")
-    private List<PurchaseDetailingDTO> purchaseDetailingDTOs;
+    private List<PurchaseDetailingWithProductDetailsDTO> purchaseDetailings;
 
-    public PurchaseWithCustomerDetailsDTO(Date date, CustomerDTO customer, List<PurchaseDetailingDTO> purchaseDetailingDTOs) {
+    public PurchaseWithDetailsDTO(Date date, CustomerDTO customer, List<PurchaseDetailingWithProductDetailsDTO> purchaseDetailings) {
         this.date = date;
         this.customer = customer;
-        this.purchaseDetailingDTOs = purchaseDetailingDTOs;
+        this.purchaseDetailings = purchaseDetailings;
     }
 }

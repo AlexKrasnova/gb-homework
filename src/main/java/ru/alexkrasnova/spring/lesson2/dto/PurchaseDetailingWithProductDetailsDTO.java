@@ -13,11 +13,11 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("Детализация покупки одного товара")
-public class PurchaseDetailingDTO {
+@ApiModel("Детализация покупки одного товара с детальной информацией по товару")
+public class PurchaseDetailingWithProductDetailsDTO {
 
-    @ApiModelProperty("ID продукта")
-    Long productId;
+    @ApiModelProperty("Продукт")
+    ProductDTO product;
 
     @ApiModelProperty("Цена в момент покупки")
     BigDecimal price;

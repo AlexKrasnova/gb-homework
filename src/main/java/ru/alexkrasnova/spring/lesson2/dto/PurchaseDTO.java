@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("Заказ без детализации")
-public class PurchaseWithCustomerIdDTO {
+public class PurchaseDTO {
 
     @ApiModelProperty("ID")
     private Long id;
@@ -27,9 +27,4 @@ public class PurchaseWithCustomerIdDTO {
     @ApiModelProperty("Детали заказа")
     private List<PurchaseDetailingDTO> purchaseDetailingDTOs;
 
-    /*public PurchaseWithCustomerIdDTO(Date date, Long customerId, List<PurchaseDetailingDTO> purchaseDetailingDTOs) {
-        this.date = date;
-        this.customerId = customerId;
-        this.purchaseDetailingDTOs = purchaseDetailingDTOs;
-    }*/
 }

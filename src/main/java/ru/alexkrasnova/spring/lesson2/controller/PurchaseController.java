@@ -8,15 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alexkrasnova.spring.lesson2.dto.CustomerDTO;
-import ru.alexkrasnova.spring.lesson2.dto.PurchaseWithCustomerDetailsDTO;
-import ru.alexkrasnova.spring.lesson2.dto.PurchaseWithCustomerIdDTO;
+import ru.alexkrasnova.spring.lesson2.dto.PurchaseWithDetailsDTO;
+import ru.alexkrasnova.spring.lesson2.dto.PurchaseDTO;
 import ru.alexkrasnova.spring.lesson2.mapper.PurchaseMapper;
 import ru.alexkrasnova.spring.lesson2.model.Purchase;
 import ru.alexkrasnova.spring.lesson2.service.PurchaseService;
 
 import java.net.URI;
-import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +33,7 @@ public class PurchaseController {
             @ApiResponse(code = 200, message = "Найден список всех заказов"),
             @ApiResponse(code = 500, message = "Неизвестная ошибка на сервере")
     })
-    public List<PurchaseWithCustomerDetailsDTO> findAll() {
+    public List<PurchaseWithDetailsDTO> findAll() {
         List<Purchase> purchases = purchaseService.findAll();
         return purchases.stream().map(purchaseMapper::convertPurchaseToPurchaseWithCustomerDetailsDTO).collect(Collectors.toList());
     }
@@ -47,7 +45,7 @@ public class PurchaseController {
             @ApiResponse(code = 404, message = "Заказ с заданым ID не найден"),
             @ApiResponse(code = 500, message = "Неизвестная ошибка на сервере")
     })
-    public PurchaseWithCustomerDetailsDTO findById(@PathVariable Long id) {
+    public PurchaseWithDetailsDTO findById(@PathVariable Long id) {
         return purchaseMapper.convertPurchaseToPurchaseWithCustomerDetailsDTO(purchaseService.findById(id));
     }
 
@@ -70,8 +68,8 @@ public class PurchaseController {
             @ApiResponse(code = 400, message = "Некорректный запрос"),
             @ApiResponse(code = 500, message = "Неизвестная ошибка на сервере")
     })
-    public ResponseEntity<Void> save(@RequestBody PurchaseWithCustomerIdDTO purchaseWithCustomerIdDTO) {
-        Long newId = purchaseService.save(purchaseMapper.convertPurchaseWithCustomerIdDTOToPurchase(purchaseWithCustomerIdDTO));
+    public ResponseEntity<Void> save(@RequestBody PurchaseDTO purchaseDTO) {
+        Long newId = purchaseService.save(purchaseMapper.convertPurchaseDTOToPurchase(purchaseDTO));
         return ResponseEntity.created(new URI("/api/v1/purchases/" + newId)).body(null);
     }
 }

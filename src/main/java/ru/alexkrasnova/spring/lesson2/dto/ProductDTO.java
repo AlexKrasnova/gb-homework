@@ -18,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("Продукт")
-//@JsonDeserialize(using = ProductDeserializer.class)
 public class ProductDTO {
 
     @ApiModelProperty("ID")
@@ -39,6 +38,10 @@ public class ProductDTO {
         this.name = name;
         this.company = company;
         this.price = price;
+    }
+
+    public ProductDTO(Long id) {
+        this.id = id;
     }
 
     @Override

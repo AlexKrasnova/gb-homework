@@ -16,16 +16,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(NoResultException.class)
-    @ResponseStatus(NOT_FOUND)
-    public void handleException(NoResultException exception) {
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    @ResponseStatus(NOT_FOUND)
-    public void handleException(NoSuchElementException exception) {
-    }
-
     @ExceptionHandler(ProductNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public void handleException(ProductNotFoundException exception) {
