@@ -6,14 +6,14 @@ app.controller("indexController", ['$scope','$modal', '$http', '$log',
         const contextPath = 'http://localhost:8080';
 
         $scope.saveProduct = function () {
-            $http.post(contextPath + '/products', $scope.NewProduct)
+            $http.post(contextPath + '/api/v1/products', $scope.NewProduct)
                 .then(function (resp) {
                     $scope.fillTable()
                 });
         };
 
         $scope.fillTable = function () {
-            $http.get(contextPath + '/products')
+            $http.get(contextPath + '/api/v1/products')
                 .then(function (resp) {
                     console.log(resp)
                     $scope.Products = resp.data
@@ -21,7 +21,7 @@ app.controller("indexController", ['$scope','$modal', '$http', '$log',
         };
 
         $scope.removeProduct = function (id){
-            $http.delete(contextPath + '/products/'+id)
+            $http.delete(contextPath + '/api/v1/products/'+id)
                 .then(function (resp) {
                     $scope.fillTable()
                 })

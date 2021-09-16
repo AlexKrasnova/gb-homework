@@ -24,4 +24,8 @@ public class PurchaseService {
     public Long save(Purchase purchase) {
         return purchaseRepository.save(purchase).getId();
     }
+
+    public void deleteById(Long id) {
+        purchaseRepository.deleteById(id);
+    }
 }

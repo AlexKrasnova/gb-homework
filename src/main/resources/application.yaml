@@ -15,3 +15,10 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+#springfox:
+#  documentation:
+#    swagger:
+#      v2:
+#        enabled: true
+#    auto-startup: false
+

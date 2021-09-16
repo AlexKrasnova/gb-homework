@@ -1,5 +1,9 @@
 package ru.alexkrasnova.spring.lesson2.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/purchases")
+@RequestMapping("/api/v1/purchases")
+@Api(produces = "application/json", consumes = "application/json", protocols = "http")
 @RequiredArgsConstructor
 public class PurchaseController {
 
@@ -25,25 +30,48 @@ public class PurchaseController {
     private final PurchaseMapper purchaseMapper;
 
     @GetMapping
+    @ApiOperation("Получение всех заказов")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Найден список всех заказов"),
+            @ApiResponse(code = 500, message = "Неизвестная ошибка на сервере")
+    })
     public List<PurchaseWithCustomerDetailsDTO> findAll() {
         List<Purchase> purchases = purchaseService.findAll();
         return purchases.stream().map(purchaseMapper::convertPurchaseToPurchaseWithCustomerDetailsDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Поиск заказа по id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Найден заказ с заданым ID"),
+            @ApiResponse(code = 404, message = "Заказ с заданым ID не найден"),
+            @ApiResponse(code = 500, message = "Неизвестная ошибка на сервере")
+    })
     public PurchaseWithCustomerDetailsDTO findById(@PathVariable Long id) {
         return purchaseMapper.convertPurchaseToPurchaseWithCustomerDetailsDTO(purchaseService.findById(id));
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation("Удаление заказа по id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Заказ с заданым ID удален"),
+            @ApiResponse(code = 404, message = "Заказ с заданым ID не найден"),
+            @ApiResponse(code = 500, message = "Неизвестная ошибка на сервере")
+    })
     public void deleteById(@PathVariable Long id) {
-        //purchaseService.deleteById(id);
+        purchaseService.deleteById(id);
     }
 
     @SneakyThrows
     @PostMapping
+    @ApiOperation("Сохранение нового заказа")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Новый заказ успешно добавлен в бд"),
+            @ApiResponse(code = 400, message = "Некорректный запрос"),
+            @ApiResponse(code = 500, message = "Неизвестная ошибка на сервере")
+    })
     public ResponseEntity<Void> save(@RequestBody PurchaseWithCustomerIdDTO purchaseWithCustomerIdDTO) {
         Long newId = purchaseService.save(purchaseMapper.convertPurchaseWithCustomerIdDTOToPurchase(purchaseWithCustomerIdDTO));
-        return ResponseEntity.created(new URI("/purchases/" + newId)).body(null);
+        return ResponseEntity.created(new URI("/api/v1/purchases/" + newId)).body(null);
     }
 }

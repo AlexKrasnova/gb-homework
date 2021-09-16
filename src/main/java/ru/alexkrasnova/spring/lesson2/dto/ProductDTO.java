@@ -1,6 +1,8 @@
 package ru.alexkrasnova.spring.lesson2.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,18 +17,22 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("Продукт")
 //@JsonDeserialize(using = ProductDeserializer.class)
 public class ProductDTO {
 
+    @ApiModelProperty("ID")
     private Long id;
 
     @NotNull
+    @ApiModelProperty("Название")
     private String name;
 
     @Company
+    @ApiModelProperty("Производитель")
     private String company;
 
-    @Min(10)
+    @ApiModelProperty("Цена")
     private BigDecimal price;
 
     public ProductDTO(String name, String company, BigDecimal price) {

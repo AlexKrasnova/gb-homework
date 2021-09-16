@@ -1,8 +1,10 @@
 package ru.alexkrasnova.spring.lesson2.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.alexkrasnova.spring.lesson2.dto.ProductDTO;
+import ru.alexkrasnova.spring.lesson2.exception.ProductNotFoundException;
 import ru.alexkrasnova.spring.lesson2.model.Product;
 import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilter;
 import ru.alexkrasnova.spring.lesson2.model.filters.ProductFilters;
@@ -22,15 +24,19 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException());
     }
 
-    public void save(Product product) {
-        productRepository.save(product);
+    public Long save(Product product) {
+        return productRepository.save(product).getId();
     }
 
     public void deleteById(Long id) {
-        productRepository.deleteById(id);
+        try {
+            productRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ProductNotFoundException();
+        }
     }
 
     public void updateById(Long id, Product product) {

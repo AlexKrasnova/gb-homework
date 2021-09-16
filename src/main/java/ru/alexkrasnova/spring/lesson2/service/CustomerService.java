@@ -1,14 +1,13 @@
 package ru.alexkrasnova.spring.lesson2.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import ru.alexkrasnova.spring.lesson2.exception.CustomerNotFoundException;
 import ru.alexkrasnova.spring.lesson2.model.Customer;
 import ru.alexkrasnova.spring.lesson2.repository.CustomerRepository;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +20,19 @@ public class CustomerService {
     }
 
     public Customer findById(Long id) {
-        return customerRepository.findById(id).orElseThrow();
+        return customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
     }
 
     public void deleteById(Long id) {
-        customerRepository.deleteById(id);
+        try{
+            customerRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new CustomerNotFoundException();
+        }
+
     }
 
-    public void save(Customer customer) {
-        customerRepository.save(customer);
+    public Long save(Customer customer) {
+        return customerRepository.save(customer).getId();
     }
 }
