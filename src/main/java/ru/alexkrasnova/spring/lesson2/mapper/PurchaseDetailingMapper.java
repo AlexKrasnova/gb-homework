@@ -14,7 +14,11 @@ public class PurchaseDetailingMapper {
     private final ProductMapper productMapper;
 
     public PurchaseDetailing convertPurchaseDetailingDTOToPurchaseDetailing(PurchaseDetailingDTO purchaseDetailingDTO) {
-        return new PurchaseDetailing(productMapper.convertProductDTOToProduct(new ProductDTO(purchaseDetailingDTO.getProductId())), purchaseDetailingDTO.getPrice(), purchaseDetailingDTO.getNumber());
+        PurchaseDetailing purchaseDetailing = new PurchaseDetailing();
+        purchaseDetailing.setProductId(purchaseDetailingDTO.getProductId());
+        purchaseDetailing.setPrice(purchaseDetailingDTO.getPrice());
+        purchaseDetailing.setNumber(purchaseDetailingDTO.getNumber());
+        return purchaseDetailing;
     }
 
 

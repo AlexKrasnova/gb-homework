@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class PurchaseWithDetailsDTO {
     private Long id;
 
     @ApiModelProperty("Дата")
-    private Date date;
+    private Instant date;
 
     @ApiModelProperty("Покупатель")
     private CustomerDTO customer;
@@ -27,7 +28,7 @@ public class PurchaseWithDetailsDTO {
     @ApiModelProperty("Детали заказа")
     private List<PurchaseDetailingWithProductDetailsDTO> purchaseDetailings;
 
-    public PurchaseWithDetailsDTO(Date date, CustomerDTO customer, List<PurchaseDetailingWithProductDetailsDTO> purchaseDetailings) {
+    public PurchaseWithDetailsDTO(Instant date, CustomerDTO customer, List<PurchaseDetailingWithProductDetailsDTO> purchaseDetailings) {
         this.date = date;
         this.customer = customer;
         this.purchaseDetailings = purchaseDetailings;

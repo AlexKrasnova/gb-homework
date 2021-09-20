@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.alexkrasnova.spring.lesson2.dto.PurchaseWithDetailsDTO;
 import ru.alexkrasnova.spring.lesson2.dto.PurchaseDTO;
 import ru.alexkrasnova.spring.lesson2.model.Purchase;
+import ru.alexkrasnova.spring.lesson2.model.PurchaseDetailing;
 
 import java.util.stream.Collectors;
 
@@ -16,13 +17,17 @@ public class PurchaseMapper {
     private final PurchaseDetailingMapper purchaseDetailingMapper;
 
     public Purchase convertPurchaseDTOToPurchase(PurchaseDTO purchaseDTO) {
-        return new Purchase(
-                purchaseDTO.getDate(),
-                purchaseDTO.getCustomerId(),
-                purchaseDTO.getPurchaseDetailingDTOs()
-                        .stream()
-                        .map(purchaseDetailingMapper::convertPurchaseDetailingDTOToPurchaseDetailing)
-                        .collect(Collectors.toList()));
+        Purchase purchase = new Purchase();
+        purchase.setCustomerId(purchaseDTO.getCustomerId());
+        purchase.setDate(purchaseDTO.getDate());
+        purchase.setPurchaseDetailings(purchaseDTO.getPurchaseDetailingDTOs()
+                .stream()
+                .map(purchaseDetailingMapper::convertPurchaseDetailingDTOToPurchaseDetailing)
+                .collect(Collectors.toList()));
+        for (PurchaseDetailing purchaseDetailing: purchase.getPurchaseDetailings()){
+            purchaseDetailing.setPurchase(purchase);
+        }
+        return purchase;
     }
 
     public PurchaseWithDetailsDTO convertPurchaseToPurchaseWithCustomerDetailsDTO(Purchase purchase) {

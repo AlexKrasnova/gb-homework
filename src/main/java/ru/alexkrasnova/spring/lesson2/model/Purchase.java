@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Purchase {
     private Long id;
 
     @Column(name = "date")
-    private Date date;
+    private Instant date;
 
     @Column(name = "customer_id")
     private Long customerId;
@@ -36,19 +37,19 @@ public class Purchase {
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "purchase", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "purchase", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<PurchaseDetailing> purchaseDetailings;
 
     @Version
     private Integer version;
 
-    public Purchase(Date date, Long customerId, List<PurchaseDetailing> purchaseDetailings) {
+    public Purchase(Instant date, Long customerId, List<PurchaseDetailing> purchaseDetailings) {
         this.date = date;
         this.customerId = customerId;
         this.purchaseDetailings = purchaseDetailings;
     }
 
-    public Purchase(Long id, Date date, Customer customer, List<PurchaseDetailing> purchaseDetailings) {
+    public Purchase(Long id, Instant date, Customer customer, List<PurchaseDetailing> purchaseDetailings) {
         this.id = id;
         this.date = date;
         this.customer = customer;

@@ -13,18 +13,21 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@IdClass(PurchaseProduct.class)
 @Table(name = "purchase_detailing")
 public class PurchaseDetailing {
 
-    @EmbeddedId
-    private PurchaseProduct purchaseProduct;
-
+    @Id
     @ManyToOne
-    @JoinColumn(name = "purchase_id", insertable = false, updatable = false)
+    @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 
+    @Id
+    @Column(name = "product_id")
+    private Long productId;
+
     @ManyToOne
-    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    @JoinColumn(name = "product_id", updatable = false, insertable = false)
     private Product product;
 
     @Column(name = "price")
