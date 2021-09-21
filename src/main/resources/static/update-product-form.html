@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h3>Введите обновленные поля продукта</h3>
+</div>
+<form name="form.updateProductForm" ng-submit="submitForm()" novalidate>
+    <div class="modal-body">
+        <!-- Название -->
+        <div class="form-group">
+            <label>Название</label>
+            <input type="text" name="name" class="form-control" ng-model="UpdatedProduct.name" required>
+        </div>
+
+        <!-- Производитель -->
+        <div class="form-group">
+            <label>Компания</label>
+            <input type="text" name="company" class="form-control" ng-model="UpdatedProduct.company" required>
+        </div>
+
+        <!-- Цена -->
+        <div class="form-group">
+            <label>Цена</label>
+            <input type="number" name="price" class="form-control" ng-model="UpdatedProduct.price" required>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="form.userForm.$invalid">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</form>
