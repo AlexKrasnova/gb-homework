@@ -3,9 +3,7 @@ package ru.alexkrasnova.spring.lesson2.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.alexkrasnova.spring.lesson2.dto.deserialization.ProductDeserializer;
 import ru.alexkrasnova.spring.lesson2.dto.validation.Company;
 
@@ -14,7 +12,9 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Data
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("Продукт")

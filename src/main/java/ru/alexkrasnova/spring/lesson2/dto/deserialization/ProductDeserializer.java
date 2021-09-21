@@ -35,6 +35,11 @@ public class ProductDeserializer extends StdDeserializer<ProductDTO> {
 
         BigDecimal price = node.get("price").decimalValue();
 
-        return new ProductDTO(name.toString(), company.toString(), price);
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName(name.toString());
+        productDTO.setCompany(company.toString());
+        productDTO.setPrice(price);
+
+        return productDTO;
     }
 }

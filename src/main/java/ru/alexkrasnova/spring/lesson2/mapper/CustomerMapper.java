@@ -9,6 +9,7 @@ import ru.alexkrasnova.spring.lesson2.model.Customer;
 public class CustomerMapper {
 
     public Customer convertCustomerDTOToCustomer(CustomerDTO customerDTO) {
+
         return new Customer(customerDTO.getId(), customerDTO.getName());
     }
 

@@ -21,7 +21,7 @@ public class ProductControllerIntegrationTest extends AbstractIntegrationTest {
 
 
     @AfterEach
-    void tearDown (){
+    void tearDown() {
         productRepository.deleteAll();
     }
 
