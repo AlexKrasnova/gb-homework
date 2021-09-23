@@ -47,4 +47,13 @@ public class UserService  implements UserDetailsService {
     public void incrementScoreByUsername(String username) {
         userRepository.incrementScoreByUsername(username);
     }
+
+    @Transactional
+    public void decrementScoreByUsername(String username) {
+        userRepository.decrementScoreByUsername(username);
+    }
+
+    public Integer getScoreByUsername(String username) {
+        return userRepository.getScoreByUsername(username);
+    }
 }

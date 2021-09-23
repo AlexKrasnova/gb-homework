@@ -18,4 +18,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("update User u set u.score = u.score + 1 where u.username = :username")
     void incrementScoreByUsername(@Param("username") String username);
+
+    @Modifying
+    @Query("update User u set u.score = u.score - 1 where u.username = :username")
+    void decrementScoreByUsername(@Param("username") String username);
+
+    @Query("select u.score from User u where u.username = :username")
+    Integer getScoreByUsername(@Param("username") String username);
 }

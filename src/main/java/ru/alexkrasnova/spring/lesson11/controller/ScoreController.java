@@ -28,4 +28,14 @@ public class ScoreController {
         userService.incrementScoreByUsername(principal.getName());
     }
 
+    @GetMapping("/dec")
+    public void decrementScore(Principal principal) {
+        userService.decrementScoreByUsername(principal.getName());
+    }
+
+    @GetMapping("/current")
+    public String getScore(Principal principal) {
+        return "Your score: " + userService.getScoreByUsername(principal.getName()).toString();
+    }
+
 }
