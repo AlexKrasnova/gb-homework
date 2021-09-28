@@ -10,12 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import ru.alexkrasnova.spring.lesson2.service.UserService;
+import ru.alexkrasnova.spring.lesson2.service.CustomerService;
 
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class DaoSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
+    private final CustomerService customerService;
     private Logger logger = LoggerFactory.getLogger(DaoSecurityConfig.class.getName());
 
     @Override
@@ -39,7 +39,7 @@ public class DaoSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder());
-        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setUserDetailsService(customerService);
         return authenticationProvider;
     }
 }

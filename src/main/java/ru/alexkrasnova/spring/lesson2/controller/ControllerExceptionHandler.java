@@ -6,11 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.alexkrasnova.spring.lesson2.exception.CustomerNotFoundException;
 import ru.alexkrasnova.spring.lesson2.exception.ProductNotFoundException;
 import ru.alexkrasnova.spring.lesson2.exception.PurchaseNotFoundException;
-import ru.alexkrasnova.spring.lesson2.exception.UserNotFoundException;
-
-import javax.persistence.NoResultException;
-
-import java.util.NoSuchElementException;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -32,10 +27,6 @@ public class ControllerExceptionHandler {
     public void handleException(PurchaseNotFoundException exception) {
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(NOT_FOUND)
-    public void handleException(UserNotFoundException exception) {
-    }
 
 
 }

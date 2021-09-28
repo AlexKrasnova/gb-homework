@@ -7,4 +7,8 @@ public class CustomerNotFoundException extends RuntimeException {
     public CustomerNotFoundException() {
         super("Покупатель не найден");
     }
+
+    public CustomerNotFoundException(String msg) {
+        super(msg);
+    }
 }
